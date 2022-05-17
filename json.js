@@ -70,4 +70,5 @@ const obj = JSON.parse(json, (key, value)=> {
 // obj에 있는 Date함수는 작동하지 않았다.
 // 하지만 parse의 revier을 사용하여 콜백함수를 만들어 주었기에 Date 변수가
 // obj에 온전히 들어올 수 있게되었고, Date 함수들이 정상적으로 작동한다.
+
 console.log(obj.birthDate.getDate());
