@@ -13,20 +13,20 @@
 // 2가 출력되므로 1 다음에 line16에 있는 3을 출력 하고 
 // 1000ms이후에 2를 출력한다. 이게 동기를 나타내는 예시이다.
 
-console.log(`1`); //동기
-setTimeout(function(){
-    console.log(`2`); //비동기
-},1000);
-console.log(`3`); //동기
+// console.log(`1`); //동기
+// setTimeout(function(){
+//     console.log(`2`); //비동기
+// },1000);
+// console.log(`3`); //동기
 // ---------------------------------
 
 // Syncronous callback //
-function printImmediately(print){ //함수선언 - hoisting으로 맨 위에서 선언된것과 같다.
-    print();
-}
-printImmediately(function(){
-    console.log(`hello`); //동기
-})
+// function printImmediately(print){ //함수선언 - hoisting으로 맨 위에서 선언된것과 같다.
+//     print();
+// }
+// printImmediately(function(){
+//     console.log(`hello`); //동기
+// })
 
 // 설명
 // line24처럼 printImmediately를 선언하면 JS의 특징인 Hoisting에 의해
@@ -36,13 +36,13 @@ printImmediately(function(){
 // 실행된 것입니다.
 
 //Asynchronous callback//
-function printWithDelay(print, timeout){ //함수선언 - hoisting으로 맨 위에서 선언된것과 같다.
-    setTimeout(print, timeout);
-}
+// function printWithDelay(print, timeout){ //함수선언 - hoisting으로 맨 위에서 선언된것과 같다.
+//     setTimeout(print, timeout);
+// }
 
-printWithDelay(function(){
-    console.log('async callback'); //비동기
-}, 2000);
+// printWithDelay(function(){
+//     console.log('async callback'); //비동기
+// }, 2000);
 
 // 설명
 // line39의 함수 선언은 Hoistin으로 코드 맨 위로 올라가는 것과 같게 됩니다.
@@ -54,7 +54,8 @@ printWithDelay(function(){
 // 기다리게 됩니다.
 
 // Callback Hell example //
-class UserStorage {
+//★★★ 1. class의 선언시에는 내부 method들간의 파라미터와 실행체계를 설정한다.
+class UserStorage {     
     loginUser(id, password, onSuccess, onError){
         setTimeout(()=>{
             if(
@@ -70,7 +71,7 @@ class UserStorage {
 
 
     getRoles(user, onSuccess, onError) {
-        setTimerout(()=> {
+        setTimeout(()=> {
             if(user === 'ellie'){
                 onSuccess({name : 'ellie', role : 'admin'});
             } else {
@@ -80,26 +81,28 @@ class UserStorage {
     }
 }
 
+//★★★ 2. 실제 작동하는 부분에서는 내가 원하는 기능대로 되도록 class 선언시에 파라미터로 설정해두었던
+//★★★    함수들의 기능을 여기서 구현한다.
 const userStorage = new UserStorage();
 const id = prompt('enter your id');
 const password = prompt('enter your password');
 userStorage.loginUser(
     id, 
     password,
-    function user(){    // loginUser의 onSuccess
+    user => {    // loginUser의 onSuccess일때 실행되는 함수
         userStorage.getRoles(
-            user,
-            function userWithRole(){    //getRoles의 onSuccess
+            user,       //위에서 loginUser의 onSuccess에 들어갈 때 파라미터로 들어가는 id가 여기서는 user로 들어간다.
+            userWithRole => {    //getRoles의 onSuccess일때 실행되는 함수
                 alert(
                     `hello ${userWithRole.name}, you have a ${userWithRole.role} role`
                 );
             },
-            function error(){   //getRoles의 onError
+            error => {   //getRoles의 onError
                 console.log(error);
             }
         );
     },
-    function error(){   //loginUser의 onError
+    error => {   //loginUser의 onError
         console.log(error);
     }
 );

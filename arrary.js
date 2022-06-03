@@ -120,10 +120,17 @@ class Student {
 
 //만약 파라미터가 (a,b)이고 return이 b-a 라면, b가 a보다 작은 경우이고 
 //정렬 순서는 그대로 a가 앞에 b가 뒤에 이니까 이때는 내림차순으로 정렬한다.
-// const result = students.map((student) => {
+// const result = students
+//   .map((student) => {
 //     return student.score;
 // }).sort((a,b) => {
 //     return a-b;
 // }). join();
+
+// line 123 ~ 128 에서 dot을 연속적으로 사용하고 있는데, 
+// 이것은 .map에서 return으로 student의 score을 반환하였기에 
+// return된 값을 가지고 바로 .sort를 해주고, 또 student.score를
+// 반환하기에 .join을 쓸 수 있다.
+
 
 // console.log(result);
